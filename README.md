@@ -1,7 +1,9 @@
 # workshop-template
 
 ## Introduction
-This workshop demonstrates domain-driven design with a focus on creating robust domain types with validation rules. The project includes a MobileNumber domain type with comprehensive validation for New Zealand mobile numbers.
+This workshop demonstrates domain-driven design with a focus on creating robust domain types with validation rules. The project includes domain types with comprehensive validation, using records for immutability and value semantics.
+
+**Note:** Domain types in this project are implemented as records to ensure immutability and value-based equality.
 
 ## Prerequisite
 - .NET 10 SDK or later
