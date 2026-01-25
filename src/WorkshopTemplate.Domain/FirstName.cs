@@ -28,9 +28,9 @@ public sealed record FirstName
             throw new ArgumentException($"First name cannot exceed {MaxLength} characters.", nameof(value));
         }
 
-        if (value.Any(c => !char.IsLetter(c)))
+        if (value.Any(c => !char.IsLetter(c) && c != ' ' && c != '-' && c != '\''))
         {
-            throw new ArgumentException("First name must contain only letters.", nameof(value));
+            throw new ArgumentException("First name must contain only letters, spaces, hyphens, and apostrophes.", nameof(value));
         }
 
         return new FirstName(value);

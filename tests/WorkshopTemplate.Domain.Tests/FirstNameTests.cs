@@ -9,7 +9,10 @@ public class FirstNameTests
         {
             new object[] { "John" },
             new object[] { "Jane" },
-            new object[] { new string('A', 30) }
+            new object[] { new string('A', 30) },
+            new object[] { "John Doe" },
+            new object[] { "Mary-Jane" },
+            new object[] { "O'Brien" }
         };
 
     public static IEnumerable<object[]> InvalidNamesWithNumbers =>
@@ -23,10 +26,7 @@ public class FirstNameTests
     public static IEnumerable<object[]> InvalidNamesWithSpecialCharacters =>
         new List<object[]>
         {
-            new object[] { "John@" },
-            new object[] { "John Doe" },
-            new object[] { "Mary-Jane" },
-            new object[] { "O'Brien" }
+            new object[] { "John@" }
         };
 
     [Theory]
