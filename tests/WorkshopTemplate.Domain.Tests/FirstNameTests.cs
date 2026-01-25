@@ -46,18 +46,25 @@ public class FirstNameTests
         
         var exception = Assert.Throws<ArgumentException>(() => FirstName.Create(name));
         
-        Assert.Contains("cannot exceed 30 characters", exception.Message);
+        Assert.Equal("value", exception.ParamName);
     }
 
     [Theory]
     [InlineData("")]
     [InlineData("   ")]
-    [InlineData(null)]
     public void Create_WithEmptyOrWhitespace_ThrowsArgumentException(string? name)
     {
-        var exception = Assert.Throws<ArgumentException>(() => FirstName.Create(name!));
+        var exception = Assert.Throws<ArgumentException>(() => FirstName.Create(name));
         
-        Assert.Contains("cannot be empty or whitespace", exception.Message);
+        Assert.Equal("value", exception.ParamName);
+    }
+
+    [Fact]
+    public void Create_WithNull_ThrowsArgumentNullException()
+    {
+        var exception = Assert.Throws<ArgumentNullException>(() => FirstName.Create(null));
+        
+        Assert.Equal("value", exception.ParamName);
     }
 
     [Theory]
@@ -66,7 +73,7 @@ public class FirstNameTests
     {
         var exception = Assert.Throws<ArgumentException>(() => FirstName.Create(name));
         
-        Assert.Contains("must contain only letters", exception.Message);
+        Assert.Equal("value", exception.ParamName);
     }
 
     [Theory]
@@ -75,7 +82,7 @@ public class FirstNameTests
     {
         var exception = Assert.Throws<ArgumentException>(() => FirstName.Create(name));
         
-        Assert.Contains("must contain only letters", exception.Message);
+        Assert.Equal("value", exception.ParamName);
     }
 
     [Fact]
