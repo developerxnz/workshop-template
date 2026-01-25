@@ -9,7 +9,10 @@ public class FirstNameTests
         {
             new object[] { "John" },
             new object[] { "Jane" },
-            new object[] { new string('A', 30) }
+            new object[] { new string('A', 30) },
+            new object[] { "John Doe" },
+            new object[] { "Mary-Jane" },
+            new object[] { "O'Brien" }
         };
 
     public static IEnumerable<object[]> InvalidNamesWithNumbers =>
@@ -23,10 +26,7 @@ public class FirstNameTests
     public static IEnumerable<object[]> InvalidNamesWithSpecialCharacters =>
         new List<object[]>
         {
-            new object[] { "John@" },
-            new object[] { "John Doe" },
-            new object[] { "Mary-Jane" },
-            new object[] { "O'Brien" }
+            new object[] { "John@" }
         };
 
     [Theory]
@@ -79,6 +79,28 @@ public class FirstNameTests
     [Theory]
     [MemberData(nameof(InvalidNamesWithSpecialCharacters))]
     public void Create_WithSpecialCharacters_ThrowsArgumentException(string name)
+    {
+        var exception = Assert.Throws<ArgumentException>(() => FirstName.Create(name));
+        
+        Assert.Equal("value", exception.ParamName);
+    }
+
+    [Theory]
+    [InlineData(" John")]
+    [InlineData("John ")]
+    [InlineData(" John ")]
+    public void Create_WithLeadingOrTrailingSpaces_ThrowsArgumentException(string name)
+    {
+        var exception = Assert.Throws<ArgumentException>(() => FirstName.Create(name));
+        
+        Assert.Equal("value", exception.ParamName);
+    }
+
+    [Theory]
+    [InlineData("---")]
+    [InlineData("'''")]
+    [InlineData(" - ")]
+    public void Create_WithOnlySpecialCharacters_ThrowsArgumentException(string name)
     {
         var exception = Assert.Throws<ArgumentException>(() => FirstName.Create(name));
         
