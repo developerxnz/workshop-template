@@ -14,17 +14,31 @@
 [Rr]eleases/
 x64/
 x86/
+build/
+bld/
 [Bb]in/
 [Oo]bj/
-[Ll]og/
 
-# Visual Studio 2015/2017/2019/2022 cache/options directory
+# Visual Studio cache/options directory
 .vs/
+
+# Visual Studio Code
+.vscode/
+
+# MSTest test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
 
 # .NET Core
 project.lock.json
 project.fragment.lock.json
 artifacts/
+*.lock.json
 
-# ASP.NET Scaffolding
-ScaffoldingReadMe.txt
+# NuGet Packages
+*.nupkg
+**/packages/*
+
+# Others
+*.log
+*.tmp
