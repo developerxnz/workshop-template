@@ -4,20 +4,35 @@ namespace WorkshopTemplate.Domain.Tests;
 
 public class FirstNameTests
 {
-    [Fact]
-    public void Create_WithValidName_ReturnsFirstName()
-    {
-        var firstName = FirstName.Create("John");
-        
-        Assert.NotNull(firstName);
-        Assert.Equal("John", firstName.Value);
-    }
+    public static IEnumerable<object[]> ValidNames =>
+        new List<object[]>
+        {
+            new object[] { "John" },
+            new object[] { "Jane" },
+            new object[] { new string('A', 30) }
+        };
 
-    [Fact]
-    public void Create_WithMaxLengthName_ReturnsFirstName()
+    public static IEnumerable<object[]> InvalidNamesWithNumbers =>
+        new List<object[]>
+        {
+            new object[] { "John123" },
+            new object[] { "1John" },
+            new object[] { "Jo2hn" }
+        };
+
+    public static IEnumerable<object[]> InvalidNamesWithSpecialCharacters =>
+        new List<object[]>
+        {
+            new object[] { "John@" },
+            new object[] { "John Doe" },
+            new object[] { "Mary-Jane" },
+            new object[] { "O'Brien" }
+        };
+
+    [Theory]
+    [MemberData(nameof(ValidNames))]
+    public void Create_WithValidName_ReturnsFirstName(string name)
     {
-        var name = new string('A', 30);
-        
         var firstName = FirstName.Create(name);
         
         Assert.NotNull(firstName);
@@ -34,66 +49,31 @@ public class FirstNameTests
         Assert.Contains("cannot exceed 30 characters", exception.Message);
     }
 
-    [Fact]
-    public void Create_WithEmptyString_ThrowsArgumentException()
+    [Theory]
+    [InlineData("")]
+    [InlineData("   ")]
+    [InlineData(null)]
+    public void Create_WithEmptyOrWhitespace_ThrowsArgumentException(string? name)
     {
-        var exception = Assert.Throws<ArgumentException>(() => FirstName.Create(""));
+        var exception = Assert.Throws<ArgumentException>(() => FirstName.Create(name!));
         
         Assert.Contains("cannot be empty or whitespace", exception.Message);
     }
 
-    [Fact]
-    public void Create_WithWhitespace_ThrowsArgumentException()
+    [Theory]
+    [MemberData(nameof(InvalidNamesWithNumbers))]
+    public void Create_WithNumbers_ThrowsArgumentException(string name)
     {
-        var exception = Assert.Throws<ArgumentException>(() => FirstName.Create("   "));
-        
-        Assert.Contains("cannot be empty or whitespace", exception.Message);
-    }
-
-    [Fact]
-    public void Create_WithNull_ThrowsArgumentException()
-    {
-        var exception = Assert.Throws<ArgumentException>(() => FirstName.Create(null!));
-        
-        Assert.Contains("cannot be empty or whitespace", exception.Message);
-    }
-
-    [Fact]
-    public void Create_WithNumbers_ThrowsArgumentException()
-    {
-        var exception = Assert.Throws<ArgumentException>(() => FirstName.Create("John123"));
+        var exception = Assert.Throws<ArgumentException>(() => FirstName.Create(name));
         
         Assert.Contains("must contain only letters", exception.Message);
     }
 
-    [Fact]
-    public void Create_WithSpecialCharacters_ThrowsArgumentException()
+    [Theory]
+    [MemberData(nameof(InvalidNamesWithSpecialCharacters))]
+    public void Create_WithSpecialCharacters_ThrowsArgumentException(string name)
     {
-        var exception = Assert.Throws<ArgumentException>(() => FirstName.Create("John@"));
-        
-        Assert.Contains("must contain only letters", exception.Message);
-    }
-
-    [Fact]
-    public void Create_WithSpaces_ThrowsArgumentException()
-    {
-        var exception = Assert.Throws<ArgumentException>(() => FirstName.Create("John Doe"));
-        
-        Assert.Contains("must contain only letters", exception.Message);
-    }
-
-    [Fact]
-    public void Create_WithHyphen_ThrowsArgumentException()
-    {
-        var exception = Assert.Throws<ArgumentException>(() => FirstName.Create("Mary-Jane"));
-        
-        Assert.Contains("must contain only letters", exception.Message);
-    }
-
-    [Fact]
-    public void Create_WithApostrophe_ThrowsArgumentException()
-    {
-        var exception = Assert.Throws<ArgumentException>(() => FirstName.Create("O'Brien"));
+        var exception = Assert.Throws<ArgumentException>(() => FirstName.Create(name));
         
         Assert.Contains("must contain only letters", exception.Message);
     }
