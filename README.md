@@ -1,7 +1,7 @@
 # workshop-template
 
 ## Introduction
-This workshop demonstrates domain-driven design with a focus on creating robust domain types with validation rules. The project includes an Address domain type with comprehensive validation.
+This workshop demonstrates domain-driven design with a focus on creating robust domain types with validation rules. The project includes a MobileNumber domain type with comprehensive validation for New Zealand mobile numbers.
 
 ## Prerequisite
 - .NET 10 SDK or later
@@ -20,33 +20,36 @@ dotnet build
 dotnet test
 ```
 
-### Step 3: Understanding the Address Domain Type
-The `Address` class is located in `src/WorkshopTemplate.Domain/Address.cs` and includes:
+### Step 3: Understanding the MobileNumber Domain Type
+The `MobileNumber` class is located in `src/WorkshopTemplate.Domain/MobileNumber.cs` and includes:
 
 **Properties:**
-- `Street` - Street address (max 200 characters)
-- `Suburb` - Suburb name (max 100 characters)
-- `Postcode` - Postal code (max 20 characters)
-- `Country` - Country name (max 100 characters)
+- `Number` - The mobile phone number (stored as digits only)
 
 **Validation Rules:**
-- All fields are required (cannot be null or empty)
-- All fields trim whitespace automatically
-- Each field has a maximum length constraint
-- Validation occurs on both construction and property setting
+- Cannot be null or empty
+- Must be a valid NZ mobile number format
+- Must be exactly 10 digits
+- Must start with "02" (NZ mobile prefix)
+- Automatically strips non-digit characters (spaces, dashes)
+- Trims whitespace automatically
 
 **Example Usage:**
 ```csharp
-var address = new Address(
-    "123 Main Street",
-    "Central City",
-    "12345",
-    "New Zealand"
-);
+// Create with plain digits
+var mobile1 = new MobileNumber("0211234567");
 
-Console.WriteLine(address.ToString());
-// Output: 123 Main Street, Central City, 12345, New Zealand
+// Create with formatting (automatically stripped)
+var mobile2 = new MobileNumber("021 123 4567");
+var mobile3 = new MobileNumber("021-123-4567");
+
+// Display formatted number
+Console.WriteLine(mobile1.ToString());
+// Output: 021 123 4567
 ```
+
+**Valid NZ Mobile Prefixes:**
+- 020, 021, 022, 027, 028, 029 (and other 02X variants)
 
 ## Resources
 - [.NET SDK Downloads](https://dotnet.microsoft.com/download)
