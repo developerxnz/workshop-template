@@ -29,7 +29,7 @@ public sealed record FirstName
             throw new ArgumentException("First name cannot start or end with spaces.", nameof(value));
         }
 
-        if (trimmedValue.Length > MaxLength)
+        if (value.Length > MaxLength)
         {
             throw new ArgumentException($"First name cannot exceed {MaxLength} characters.", nameof(value));
         }
