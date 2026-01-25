@@ -20,9 +20,10 @@ public class Address
         {
             if (string.IsNullOrWhiteSpace(value))
                 throw new ArgumentException("Street cannot be null or empty", nameof(Street));
-            if (value.Length > 200)
+            var trimmedValue = value.Trim();
+            if (trimmedValue.Length > 200)
                 throw new ArgumentException("Street cannot exceed 200 characters", nameof(Street));
-            _street = value.Trim();
+            _street = trimmedValue;
         }
     }
 
@@ -36,9 +37,10 @@ public class Address
         {
             if (string.IsNullOrWhiteSpace(value))
                 throw new ArgumentException("Suburb cannot be null or empty", nameof(Suburb));
-            if (value.Length > 100)
+            var trimmedValue = value.Trim();
+            if (trimmedValue.Length > 100)
                 throw new ArgumentException("Suburb cannot exceed 100 characters", nameof(Suburb));
-            _suburb = value.Trim();
+            _suburb = trimmedValue;
         }
     }
 
@@ -52,9 +54,10 @@ public class Address
         {
             if (string.IsNullOrWhiteSpace(value))
                 throw new ArgumentException("Postcode cannot be null or empty", nameof(Postcode));
-            if (value.Length > 20)
+            var trimmedValue = value.Trim();
+            if (trimmedValue.Length > 20)
                 throw new ArgumentException("Postcode cannot exceed 20 characters", nameof(Postcode));
-            _postcode = value.Trim();
+            _postcode = trimmedValue;
         }
     }
 
@@ -68,9 +71,10 @@ public class Address
         {
             if (string.IsNullOrWhiteSpace(value))
                 throw new ArgumentException("Country cannot be null or empty", nameof(Country));
-            if (value.Length > 100)
+            var trimmedValue = value.Trim();
+            if (trimmedValue.Length > 100)
                 throw new ArgumentException("Country cannot exceed 100 characters", nameof(Country));
-            _country = value.Trim();
+            _country = trimmedValue;
         }
     }
 
