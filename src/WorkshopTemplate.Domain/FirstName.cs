@@ -1,6 +1,6 @@
 namespace WorkshopTemplate.Domain;
 
-public sealed class FirstName : IEquatable<FirstName>
+public sealed record FirstName
 {
     private const int MaxLength = 30;
     
@@ -31,36 +31,8 @@ public sealed class FirstName : IEquatable<FirstName>
         return new FirstName(value);
     }
 
-    public bool Equals(FirstName? other)
-    {
-        if (other is null) return false;
-        if (ReferenceEquals(this, other)) return true;
-        return Value == other.Value;
-    }
-
-    public override bool Equals(object? obj)
-    {
-        return Equals(obj as FirstName);
-    }
-
-    public override int GetHashCode()
-    {
-        return Value.GetHashCode();
-    }
-
     public override string ToString()
     {
         return Value;
-    }
-
-    public static bool operator ==(FirstName? left, FirstName? right)
-    {
-        if (left is null) return right is null;
-        return left.Equals(right);
-    }
-
-    public static bool operator !=(FirstName? left, FirstName? right)
-    {
-        return !(left == right);
     }
 }
