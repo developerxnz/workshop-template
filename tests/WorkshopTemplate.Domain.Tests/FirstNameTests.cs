@@ -85,6 +85,28 @@ public class FirstNameTests
         Assert.Equal("value", exception.ParamName);
     }
 
+    [Theory]
+    [InlineData(" John")]
+    [InlineData("John ")]
+    [InlineData(" John ")]
+    public void Create_WithLeadingOrTrailingSpaces_ThrowsArgumentException(string name)
+    {
+        var exception = Assert.Throws<ArgumentException>(() => FirstName.Create(name));
+        
+        Assert.Equal("value", exception.ParamName);
+    }
+
+    [Theory]
+    [InlineData("---")]
+    [InlineData("'''")]
+    [InlineData(" - ")]
+    public void Create_WithOnlySpecialCharacters_ThrowsArgumentException(string name)
+    {
+        var exception = Assert.Throws<ArgumentException>(() => FirstName.Create(name));
+        
+        Assert.Equal("value", exception.ParamName);
+    }
+
     [Fact]
     public void Equals_SameValue_ReturnsTrue()
     {

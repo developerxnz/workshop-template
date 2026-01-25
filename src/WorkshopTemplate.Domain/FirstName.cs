@@ -23,7 +23,13 @@ public sealed record FirstName
             throw new ArgumentException("First name cannot be empty or whitespace.", nameof(value));
         }
 
-        if (value.Length > MaxLength)
+        var trimmedValue = value.Trim();
+        if (trimmedValue != value)
+        {
+            throw new ArgumentException("First name cannot start or end with spaces.", nameof(value));
+        }
+
+        if (trimmedValue.Length > MaxLength)
         {
             throw new ArgumentException($"First name cannot exceed {MaxLength} characters.", nameof(value));
         }
@@ -31,6 +37,11 @@ public sealed record FirstName
         if (value.Any(c => !char.IsLetter(c) && c != ' ' && c != '-' && c != '\''))
         {
             throw new ArgumentException("First name must contain only letters, spaces, hyphens, and apostrophes.", nameof(value));
+        }
+
+        if (!value.Any(char.IsLetter))
+        {
+            throw new ArgumentException("First name must contain at least one letter.", nameof(value));
         }
 
         return new FirstName(value);
