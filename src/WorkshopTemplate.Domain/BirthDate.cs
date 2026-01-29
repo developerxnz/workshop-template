@@ -4,30 +4,30 @@ public sealed record BirthDate
 {
     private const int MaxAgeYears = 105;
     
-    public DateTime Value { get; }
+    public DateOnly Value { get; }
 
-    private BirthDate(DateTime value)
+    private BirthDate(DateOnly value)
     {
         Value = value;
     }
 
-    public static BirthDate Create(DateTime? value)
+    public static BirthDate Create(DateOnly? value)
     {
         if (value is null)
         {
             throw new ArgumentNullException(nameof(value));
         }
 
-        var today = DateTime.Today;
+        var today = DateOnly.FromDateTime(DateTime.Today);
         
-        if (value.Value.Date > today)
+        if (value.Value > today)
         {
             throw new ArgumentException("Birth date cannot be in the future.", nameof(value));
         }
 
         var age = today.Year - value.Value.Year;
         // Adjust if birthday hasn't occurred yet this year
-        if (value.Value.Date > today.AddYears(-age))
+        if (value.Value > today.AddYears(-age))
         {
             age--;
         }
@@ -37,7 +37,7 @@ public sealed record BirthDate
             throw new ArgumentException($"Birth date cannot be older than {MaxAgeYears} years.", nameof(value));
         }
 
-        return new BirthDate(value.Value.Date);
+        return new BirthDate(value.Value);
     }
 
     public override string ToString()
